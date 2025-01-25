@@ -12,17 +12,14 @@ interface Cached {
 }
 
 declare global {
-  var mongoose: Cached;
+  var mongoose: Cached | undefined;
 }
+
+let cached: Cached = global.mongoose || { conn: null, promise: null };
 
 export async function connectDB(): Promise<Mongoose> {
   const DATABASE_URL = process.env.MONGO_URI as string;
 
-  let cached: Cached = global.mongoose;
-
-  if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null };
-  }
   if (cached.conn) {
     return cached.conn;
   }
@@ -42,5 +39,6 @@ export async function connectDB(): Promise<Mongoose> {
   }
 
   cached.conn = await cached.promise;
+  global.mongoose = cached;
   return cached.conn;
 }
