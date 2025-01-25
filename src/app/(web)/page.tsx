@@ -3,7 +3,7 @@
 import { Hero } from "@/components/hero";
 import { Facts } from "@/components/facts";
 
-import SignupPage from './signup/page'
+import SignupPage from './login/page'
 import Link from "next/link";
 
 export default function Home() {
