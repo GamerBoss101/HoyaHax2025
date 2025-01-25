@@ -19,7 +19,7 @@ export function Navbar() {
 	const { setTheme } = useTheme()
 
 	return (
-		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" suppressHydrationWarning>
 			<div className="container flex h-14 items-center mx-auto">
 				<div className="mr-4 hidden md:flex">
 					<Link href="/" className="mr-6 flex items-center space-x-2">
@@ -55,7 +55,7 @@ export function Navbar() {
 						</DropdownMenu>
 					</nav>
 					<ClerkProvider>
-						<Button className="hidden md:flex">
+						<Button className="hidden md:flex" suppressHydrationWarning>
 							<SignedOut>
 								<SignInButton />
 							</SignedOut>
