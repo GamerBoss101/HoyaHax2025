@@ -19,7 +19,7 @@ export default function Navbar() {
             <div className="container mx-auto px-6 py-3">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                        <SidebarTrigger className="text-gray-200 focus:outline-none focus:text-gray-300 dark:focus:text-gray-700">
+                        <SidebarTrigger className="text-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-700">
                             <Menu className="h-6 w-6" />
                         </SidebarTrigger>
                         <span className="ml-4 text-xl font-semibold">My Dashboard</span>
