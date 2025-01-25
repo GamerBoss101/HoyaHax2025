@@ -9,10 +9,13 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-export function MedicationTable({medications}) {
+import { Card, CardContent } from "@/components/ui/card"
+
+export function MedicationTable({ medications }) {
 
     return (
-        <div className="rounded-md border">
+        <Card className="rounded-md border">
+            <CardContent>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -31,6 +34,7 @@ export function MedicationTable({medications}) {
                     ))}
                 </TableBody>
             </Table>
-        </div>
+            </CardContent>
+        </Card>
     )
 }
