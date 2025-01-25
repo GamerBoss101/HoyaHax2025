@@ -17,7 +17,7 @@ export default function RootLayout({
             <Sidebar/>
             <div className="flex-1 flex flex-col overflow-hidden">
                 <Navbar />
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-6">
+                <main className="flex-1 overflow-x-hidden overflow-y-auto text-black dark:text-white bg-neutral-100 dark:bg-neutral-900 p-6">
                     {children}
                 </main>
             </div>

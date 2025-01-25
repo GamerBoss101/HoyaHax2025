@@ -22,7 +22,7 @@ export default function Sidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
-							<Link href="/suite/doctor/dashboard">
+							<Link href="/dashboard">
 								<Home className="mr-2 h-4 w-4" />
 								<span>Home</span>
 							</Link>
@@ -30,17 +30,17 @@ export default function Sidebar() {
 					</SidebarMenuItem>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
-							<Link href="/suite/doctor/patients">
+							<Link href="/dashboard/users">
 								<Users className="mr-2 h-4 w-4" />
-								<span>Patient</span>
+								<span>Users</span>
 							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
-							<Link href="/suite/doctor/account">
+							<Link href="/dashboard/settings">
 								<Settings className="mr-2 h-4 w-4" />
-								<span>Account</span>
+								<span>Settings</span>
 							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
