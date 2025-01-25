@@ -2,13 +2,10 @@
 
 import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
-import { ReactNode } from 'react';
+import React from 'react';
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <html lang="en">
