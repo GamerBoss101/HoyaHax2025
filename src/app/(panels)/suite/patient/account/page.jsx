@@ -24,7 +24,7 @@ const AccountPage = () => {
 
 	if (!userData) return <div>Loading...</div>;
 
-	const [medications, setMedications] = useState(userData.medications || []);
+	const [medications, setMedications] = useState([]);
 	const handleMedicationsChange = (index, field, value) => {
 		const newMedications = [...medications];
 		newMedications[index][field] = value;
