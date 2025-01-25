@@ -3,8 +3,6 @@ import { User } from '../../../models/User';
 import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
 
-const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
-
 async function connectDB() {
   if (mongoose.connection.readyState >= 1) return;
   await mongoose.connect(process.env.MONGO_URI, {
@@ -13,11 +11,20 @@ async function connectDB() {
   });
 }
 
+const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+
+if (!CLERK_WEBHOOK_SECRET) {
+  console.error('CLERK_WEBHOOK_SECRET is missing');
+  return NextResponse.json(
+    { message: 'Internal server error: Secret missing' },
+    { status: 500 }
+  );
+}
+
 export async function POST(req) {
   console.log('Received request:', req);
 
   if (req.method !== 'POST') {
-    console.log('Method not allowed');
     return NextResponse.json(
       { message: 'Method Not Allowed' },
       { status: 405 }
@@ -31,13 +38,16 @@ export async function POST(req) {
     'svix-signature': req.headers.get('svix-signature'),
   };
 
+  console.log('Webhook headers:', headers);
+
   const wh = new Webhook(CLERK_WEBHOOK_SECRET);
 
   let evt;
   try {
     evt = wh.verify(payload, headers);
+    console.log('Webhook verified:', evt);
   } catch (err) {
-    console.error('Invalid webhook signature', err);
+    console.error('Invalid webhook signature:', err);
     return NextResponse.json(
       { message: 'Invalid webhook signature' },
       { status: 400 }
@@ -48,19 +58,17 @@ export async function POST(req) {
 
   if (eventType === 'user.created') {
     const { first_name, last_name, email_addresses } = evt.data;
-    const email = email_addresses && email_addresses[0] ? email_addresses[0].email_address : null;
+    const email = email_addresses?.[0]?.email_address || null;
 
-    console.log('Clerk Data:', { first_name, last_name, email });
-
-    const name = first_name && last_name ? `${first_name} ${last_name}` : first_name || last_name;
-
-    if (!name || !email) {
-      console.log('Missing name or email');
+    if (!email) {
+      console.log('Email missing from webhook data');
       return NextResponse.json(
-        { message: 'Name and email are required' },
+        { message: 'Email is required' },
         { status: 400 }
       );
     }
+
+    const name = `${first_name || ''} ${last_name || ''}`.trim();
 
     await connectDB();
 
@@ -83,7 +91,6 @@ export async function POST(req) {
 
     await user.save();
     console.log('User created successfully');
-
     return NextResponse.json(
       { message: 'User successfully created' },
       { status: 200 }
