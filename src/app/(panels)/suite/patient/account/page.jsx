@@ -7,15 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { ChevronDown } from "lucide-react"
-
-import { PersonForm } from './PatientForm';
-
 const AccountPage = () => {
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
-	const [patients, setPatients] = useState([]);
 
 	useEffect(() => {
 		if (user) {
@@ -28,19 +22,23 @@ const AccountPage = () => {
 		}
 	}, [user]);
 
-	const handleRoleChange = async () => {
-		const newRole = userData.role === 'patient' ? 'caregiver' : 'patient';
-		await axios.put(`/api/user?userId=${user.id}`, { role: newRole });
-		setUserData({ ...userData, role: newRole });
-		if (newRole === 'caregiver') {
-			axios.get('/api/patients').then(res => setPatients(res.data));
-		} else {
-			setPatients([]);
-			setSelectedPatient(null);
-		}
-	};
-
 	if (!userData) return <div>Loading...</div>;
+
+	const [medications, setMedications] = useState(userData.medications || []);
+	const handleMedicationsChange = (index, field, value) => {
+		const newMedications = [...medications];
+		newMedications[index][field] = value;
+		setMedications(newMedications);
+	}
+
+	const handleAddMedication = () => {
+		setMedications([...medications, { name: '', dosage: '', frequency: '' }]);
+	}
+
+	const [diagnoses, setDiagnoses] = useState(userData.diagnoses || []);
+	const handleDiagnosesChange = (e) => {
+		setDiagnoses(e.target.value.split(','));
+	}
 
 	return (
 		<div className="container mx-auto p-4">
@@ -61,36 +59,61 @@ const AccountPage = () => {
 						<Label>Role:</Label>
 						<p>{userData.role}</p>
 					</div>
-					<Button onClick={handleRoleChange} className="mb-4">
-						Change role to {userData.role === 'patient' ? 'caregiver' : 'patient'}
-					</Button>
-
-					{userData.role === 'caregiver' && (
-						<div>
-							<h2 className="text-xl font-bold mb-4">Patients</h2>
-							<ul className="mb-4">
-								{patients.map(patient => (
-									<Collapsible key={patient.id}>
-										<div className="flex items-center justify-between p-2 bg-gray-100 dark:bg-neutral-800 rounded-t-lg">
-											<div>
-												<h2 className="text-lg font-semibold">{patient.name}</h2>
-												<p className="text-sm text-gray-400">{patient.role}</p>
-											</div>
-											<CollapsibleTrigger asChild>
-												<Button variant="ghost" size="sm">
-													<ChevronDown className="h-4 w-4" />
-													<span className="sr-only">Toggle</span>
-												</Button>
-											</CollapsibleTrigger>
-										</div>
-										<CollapsibleContent className="p-4 border border-t-0 rounded-b-lg">
-											<PersonForm person={patient} />
-										</CollapsibleContent>
-									</Collapsible>
-								))}
-							</ul>
+					<div className="mb-4">
+						<Label>Medications:</Label>
+						<br/>
+						{medications.map((medication, index) => (
+							<div key={index} className="mb-2 grid grid-cols-3 gap-2">
+								<Input
+									type="text"
+									placeholder="Name"
+									value={medication.name}
+									onChange={(e) => handleMedicationsChange(index, 'name', e.target.value)}
+									className="mb-2"
+								/>
+								<Input
+									type="text"
+									placeholder="Dosage"
+									value={medication.dosage}
+									onChange={(e) => handleMedicationsChange(index, 'dosage', e.target.value)}
+									className="mb-2"
+								/>
+								<Input
+									type="text"
+									placeholder="Frequency"
+									value={medication.frequency}
+									onChange={(e) => handleMedicationsChange(index, 'frequency', e.target.value)}
+									className="mb-2"
+								/>
+							</div>
+						))}
+						<div className="mb-2 grid grid-cols-4 gap-2">
+							<Input
+								type="text"
+								placeholder="Name"
+								className="mb-2"
+							/>
+							<Input
+								type="text"
+								placeholder="Dosage"
+								className="mb-2"
+							/>
+							<Input
+								type="text"
+								placeholder="Frequency"
+								className="mb-2"
+							/>
+							<Button onClick={handleAddMedication}>Add Medication</Button>
 						</div>
-					)}
+					</div>
+					<div className="mb-4">
+						<Label>Diagnoses:</Label>
+						<Input
+							type="text"
+							value={diagnoses.join(',')}
+							onChange={handleDiagnosesChange}
+						/>
+					</div>
 				</CardContent>
 			</Card>
 		</div>
