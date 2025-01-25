@@ -41,6 +41,37 @@ const AccountPage = () => {
 						<Label>Role:</Label>
 						<p>{userData.role}</p>
 					</div>
+					<Label>Medications:</Label>
+					<br />
+					{userData.medications.map((medication, index) => (
+						<div key={index} className="mb-2 grid grid-cols-3 gap-2">
+							<Input
+								type="text"
+								placeholder="Name"
+								value={medication.name}
+								onChange={(e) => handleMedicationsChange(index, 'name', e.target.value)}
+								className="mb-2"
+							/>
+							<Input
+								type="text"
+								placeholder="Dosage"
+								value={medication.dosage}
+								onChange={(e) => handleMedicationsChange(index, 'dosage', e.target.value)}
+								className="mb-2"
+							/>
+							<Input
+								type="text"
+								placeholder="Frequency"
+								value={medication.frequency}
+								onChange={(e) => handleMedicationsChange(index, 'frequency', e.target.value)}
+								className="mb-2"
+							/>
+						</div>
+					))}
+					<div className="mb-4">
+						<Label>Diagnoses:</Label>
+						<p>{userData.diagnoses.join(', ')}</p>
+					</div>
 				</CardContent>
 			</Card>
 		</div>
