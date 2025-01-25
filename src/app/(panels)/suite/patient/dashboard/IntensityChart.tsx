@@ -33,7 +33,7 @@ export function IntenseChart() {
         <Card>
             <CardHeader>
                 <CardTitle>Intensity of Symtoms</CardTitle>
-                <CardDescription> Last 3 months</CardDescription>
+                <CardDescription> Last 4 months</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
