@@ -45,27 +45,10 @@ const AccountPage = () => {
 					<br />
 					{userData.medications.map((medication, index) => (
 						<div key={index} className="mb-2 grid grid-cols-3 gap-2">
-							<Input
-								type="text"
-								placeholder="Name"
-								value={medication.name}
-								onChange={(e) => handleMedicationsChange(index, 'name', e.target.value)}
-								className="mb-2"
-							/>
-							<Input
-								type="text"
-								placeholder="Dosage"
-								value={medication.dosage}
-								onChange={(e) => handleMedicationsChange(index, 'dosage', e.target.value)}
-								className="mb-2"
-							/>
-							<Input
-								type="text"
-								placeholder="Frequency"
-								value={medication.frequency}
-								onChange={(e) => handleMedicationsChange(index, 'frequency', e.target.value)}
-								className="mb-2"
-							/>
+
+							<p>{medication.name}</p>
+							<p>{medication.dosage}</p>
+							<p>{medication.frequency}</p>
 						</div>
 					))}
 					<div className="mb-4">
