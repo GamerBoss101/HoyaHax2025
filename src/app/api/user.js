@@ -1,16 +1,15 @@
-import { getAuth } from '@clerk/nextjs/server';
 import User from '../../models/User';
 import { connectDB } from '../../lib/utils';
 
 export default async (req, res) => {
   await connectDB();
-  const { userId } = getAuth(req);
+  const { userId } = req.query;
 
   if (!userId) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const user = await User.findOne({ id: userId });
+  const user = await User.findOne({ clerkId: userId });
 
   if (!user) {
     return res.status(404).json({ message: 'User not found' });

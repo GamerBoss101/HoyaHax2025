@@ -1,31 +1,32 @@
-"use client";
+"use client"
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Label } from '../../../components/ui/label';
-import { Card, CardHeader, CardContent, CardFooter } from '../../../components/ui/card';
+import { useUser } from '@clerk/clerk-react';
+import { Button, Input, Label, Card, CardHeader, CardBody, CardFooter } from 'components/ui';
 
 const AccountPage = () => {
-  const [user, setUser] = useState(null);
+  const { user } = useUser();
+  const [userData, setUserData] = useState(null);
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [medications, setMedications] = useState([]);
   const [diagnoses, setDiagnoses] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/user').then(response => {
-      setUser(response.data);
-      if (response.data.role === 'caregiver') {
-        axios.get('/api/patients').then(res => setPatients(res.data));
-      }
-    });
-  }, []);
+    if (user) {
+      axios.get(`/api/user?userId=${user.id}`).then(response => {
+        setUserData(response.data);
+        if (response.data.role === 'caregiver') {
+          axios.get('/api/patients').then(res => setPatients(res.data));
+        }
+      });
+    }
+  }, [user]);
 
   const handleRoleChange = async () => {
-    const newRole = user.role === 'patient' ? 'caregiver' : 'patient';
-    await axios.put('/api/user', { role: newRole });
-    setUser({ ...user, role: newRole });
+    const newRole = userData.role === 'patient' ? 'caregiver' : 'patient';
+    await axios.put(`/api/user?userId=${user.id}`, { role: newRole });
+    setUserData({ ...userData, role: newRole });
     if (newRole === 'caregiver') {
       axios.get('/api/patients').then(res => setPatients(res.data));
     } else {
@@ -58,7 +59,7 @@ const AccountPage = () => {
     alert('Patient data updated successfully');
   };
 
-  if (!user) return <div>Loading...</div>;
+  if (!userData) return <div>Loading...</div>;
 
   return (
     <div className="container mx-auto p-4">
@@ -66,24 +67,24 @@ const AccountPage = () => {
         <CardHeader>
           <h1 className="text-2xl font-bold">Account Page</h1>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           <div className="mb-4">
             <Label>Name:</Label>
-            <p>{user.name}</p>
+            <p>{userData.name}</p>
           </div>
           <div className="mb-4">
             <Label>Email:</Label>
-            <p>{user.email}</p>
+            <p>{userData.email}</p>
           </div>
           <div className="mb-4">
             <Label>Role:</Label>
-            <p>{user.role}</p>
+            <p>{userData.role}</p>
           </div>
           <Button onClick={handleRoleChange} className="mb-4">
-            Change role to {user.role === 'patient' ? 'caregiver' : 'patient'}
+            Change role to {userData.role === 'patient' ? 'caregiver' : 'patient'}
           </Button>
 
-          {user.role === 'caregiver' && (
+          {userData.role === 'caregiver' && (
             <div>
               <h2 className="text-xl font-bold mb-4">Patients</h2>
               <ul className="mb-4">
@@ -103,7 +104,7 @@ const AccountPage = () => {
                   <CardHeader>
                     <h3 className="text-xl font-bold">Edit Patient: {selectedPatient.name}</h3>
                   </CardHeader>
-                  <CardContent>
+                  <CardBody>
                     <div className="mb-4">
                       <Label>Medications:</Label>
                       {medications.map((medication, index) => (
@@ -140,7 +141,7 @@ const AccountPage = () => {
                         onChange={handleDiagnosesChange}
                       />
                     </div>
-                  </CardContent>
+                  </CardBody>
                   <CardFooter>
                     <Button onClick={handleSave}>Save</Button>
                   </CardFooter>
@@ -148,7 +149,7 @@ const AccountPage = () => {
               )}
             </div>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   );
