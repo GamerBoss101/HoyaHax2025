@@ -1,13 +1,6 @@
 "use client"
 
 import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    useReactTable,
-} from "@tanstack/react-table"
-
-import {
     Table,
     TableBody,
     TableCell,
@@ -16,13 +9,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-export function MedicationTable(medications) {
+export function MedicationTable({medications}) {
 
-
-	if (!userData) return <div>Loading...</div>;
-
-	console.log(userData);
-    
     return (
         <div className="rounded-md border">
             <Table>
