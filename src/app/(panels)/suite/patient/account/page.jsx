@@ -45,7 +45,6 @@ const AccountPage = () => {
 					<br />
 					{userData.medications.map((medication, index) => (
 						<div key={index} className="mb-2 grid grid-cols-3 gap-2">
-
 							<p>{medication.name}</p>
 							<p>{medication.dosage}</p>
 							<p>{medication.frequency}</p>
@@ -53,7 +52,7 @@ const AccountPage = () => {
 					))}
 					<div className="mb-4">
 						<Label>Diagnoses:</Label>
-						<p>{userData.diagnoses.join(', ')}</p>
+						<p>{userData.diagnoses ? userData.diagnoses.join(', ') : ''}</p>
 					</div>
 				</CardContent>
 			</Card>

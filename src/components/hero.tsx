@@ -1,5 +1,5 @@
 "use client"
-import { Card } from "./ui/card"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
@@ -35,17 +35,7 @@ export function Hero() {
 						</Link>
 					</Button>
 				</div>
-					<Card>
-						<h2>
-							OUR MISSION
-						</h2>
-						At PostCare we want to ensure the health of those throughout the world.
-						Our goal is to make sure that our services can ensure clarity and accessibility
-						<center>As well as a smooth experience</center>
-					</Card>
-
 			</div>
-				
 		</section>
 	)
 }
