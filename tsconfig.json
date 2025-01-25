@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/connectDB.js", "src/lib/utils.js", "src/app/(web)/account/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/connectDB.js", "src/lib/utils.js", "src/app/account/page.jsx"],
   "exclude": ["node_modules"]
 }
