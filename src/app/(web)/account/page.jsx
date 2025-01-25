@@ -2,7 +2,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '@clerk/clerk-react';
-import { Button, Input, Label, Card, CardHeader, CardBody, CardFooter } from 'components/ui';
+import { Button } from '../../../components/ui/button';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
+import { Card, CardHeader, CardContent, CardFooter } from '../../../components/ui/card';
+
 
 const AccountPage = () => {
   const { user } = useUser();
@@ -67,7 +71,7 @@ const AccountPage = () => {
         <CardHeader>
           <h1 className="text-2xl font-bold">Account Page</h1>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           <div className="mb-4">
             <Label>Name:</Label>
             <p>{userData.name}</p>
@@ -104,7 +108,7 @@ const AccountPage = () => {
                   <CardHeader>
                     <h3 className="text-xl font-bold">Edit Patient: {selectedPatient.name}</h3>
                   </CardHeader>
-                  <CardBody>
+                  <CardContent>
                     <div className="mb-4">
                       <Label>Medications:</Label>
                       {medications.map((medication, index) => (
@@ -141,7 +145,7 @@ const AccountPage = () => {
                         onChange={handleDiagnosesChange}
                       />
                     </div>
-                  </CardBody>
+                  </CardContent>
                   <CardFooter>
                     <Button onClick={handleSave}>Save</Button>
                   </CardFooter>
@@ -149,7 +153,7 @@ const AccountPage = () => {
               )}
             </div>
           )}
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   );
