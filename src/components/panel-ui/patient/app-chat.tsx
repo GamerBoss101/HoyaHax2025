@@ -1,7 +1,7 @@
 import Image from "next/image"
 
-// @ts-ignore
-export function Message({ avatarUrl, message, sender }) {
+
+export function Message({ avatarUrl, message, sender }: { avatarUrl: string, message: string, sender: string }) {
     return (
         <div className="flex items-start space-x-4 p-4">
             <Image
