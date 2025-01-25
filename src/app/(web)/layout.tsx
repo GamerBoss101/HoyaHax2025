@@ -13,16 +13,16 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
-		<body>
-			<ClerkProvider>
+		<ClerkProvider>
+			<html lang="en">
+			<body>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 					<Navbar />
 					<main suppressHydrationWarning>{children}</main>
 					<Footer />
 				</ThemeProvider>
-			</ClerkProvider>
-		</body>
-	</html>
+			</body>
+		</html>
+	</ClerkProvider>
 	)
 }
