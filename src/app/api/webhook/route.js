@@ -14,10 +14,10 @@ async function connectDB() {
 }
 
 export async function POST(req) {
-  console.log('Received request:', req); // Log the full request
+  console.log('Received request:', req);
 
   if (req.method !== 'POST') {
-    console.log('Method not allowed');  // Log if method is not POST
+    console.log('Method not allowed'); 
     return NextResponse.json(
       { message: 'Method Not Allowed' },
       { status: 405 }
@@ -27,15 +27,16 @@ export async function POST(req) {
   try {
     const webhookSignature = req.headers.get('clerk-signature');
     const payload = JSON.stringify(await req.json());
-
-    console.log('Webhook Payload:', payload);  // Log the webhook payload
+    console.log('Webhook Payload:', payload);
+    console.log('Received Clerk Signature:', webhookSignature);
 
     const hmac = crypto.createHmac('sha256', CLERK_WEBHOOK_SECRET);
     hmac.update(payload);
     const computedSignature = hmac.digest('hex');
+    console.log('Computed Signature:', computedSignature);
 
     if (computedSignature !== webhookSignature) {
-      console.log('Invalid webhook signature');  // Log if signature is invalid
+      console.log('Invalid webhook signature');
       return NextResponse.json(
         { message: 'Invalid webhook signature' },
         { status: 400 }
@@ -77,14 +78,14 @@ export async function POST(req) {
     });
 
     await user.save();
-    console.log('User created successfully'); 
+    console.log('User created successfully');
 
     return NextResponse.json(
       { message: 'User successfully created' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error during webhook processing:', error);
     return NextResponse.json(
       { message: 'Internal server error' },
       { status: 500 }
