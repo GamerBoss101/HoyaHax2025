@@ -8,6 +8,7 @@ const AudioTranscriber: React.FC = () => {
   const [transcription, setTranscription] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
@@ -15,27 +16,42 @@ const AudioTranscriber: React.FC = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0]);
+      console.log("File selected:", event.target.files[0].name);
     }
   };
 
   // Handle file transcription
   const handleTranscription = async (audioFile: File) => {
-    if (!audioFile) return alert("No audio file to transcribe!");
+    if (!audioFile) {
+      alert("No audio file to transcribe!");
+      return;
+    }
+
+    console.log("Starting transcription for:", audioFile.name);
 
     const formData = new FormData();
     formData.append("file", audioFile);
 
     setLoading(true);
+    setError(null); // Clear previous errors
     try {
       const response = await axios.post("http://localhost:8000/transcribe", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      setTranscription(response.data.transcription);
+
+      console.log("Transcription response:", response.data);
+
+      if (response.data && response.data.transcription) {
+        setTranscription(response.data.transcription);
+      } else {
+        setError("Unexpected response format. Check backend API.");
+        console.error("Invalid response format:", response.data);
+      }
     } catch (error) {
       console.error("Error transcribing audio:", error);
-      alert("Failed to transcribe audio. Please try again.");
+      setError("Failed to transcribe audio. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -45,11 +61,14 @@ const AudioTranscriber: React.FC = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
+      console.log("Microphone access granted.");
 
+      mediaRecorderRef.current = new MediaRecorder(stream);
       audioChunksRef.current = []; // Reset audio chunks
+
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
+          console.log("Audio chunk received:", event.data);
           audioChunksRef.current.push(event.data);
         }
       };
@@ -57,24 +76,27 @@ const AudioTranscriber: React.FC = () => {
       mediaRecorderRef.current.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: "audio/mp3" });
         const audioFile = new File([audioBlob], "recording.mp3", { type: "audio/mp3" });
-        setFile(audioFile); // Save the recorded file
 
-        // Transcribe the recorded audio
-        setTranscription("Transcribing the recorded audio...");
-        await handleTranscription(audioFile);
+        console.log("Recording stopped. Blob created:", audioBlob);
+
+        setFile(audioFile); // Save the recorded file
+        setTranscription("Processing transcription for recorded audio...");
+        await handleTranscription(audioFile); // Automatically transcribe
       };
 
       mediaRecorderRef.current.start();
+      console.log("Recording started.");
       setRecording(true);
     } catch (error) {
       console.error("Error starting recording:", error);
-      alert("Failed to start recording. Please check microphone permissions.");
+      setError("Failed to start recording. Please check microphone permissions.");
     }
   };
 
   // Stop recording audio
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
+      console.log("Stopping recording...");
       mediaRecorderRef.current.stop();
       setRecording(false);
     }
@@ -115,6 +137,13 @@ const AudioTranscriber: React.FC = () => {
           <p>No transcription available yet.</p>
         )}
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div style={{ color: "red" }}>
+          <strong>Error:</strong> {error}
+        </div>
+      )}
     </div>
   );
 };
