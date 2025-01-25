@@ -7,24 +7,22 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import '../globals.css'
 
-import { ReactNode } from 'react';
-
-interface RootLayoutProps {
-  children: ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <html lang="en">
-      <body>
-        <ClerkProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <Navbar />
-            <main suppressHydrationWarning>{children}</main>
-            <Footer />
-          </ThemeProvider>
-        </ClerkProvider>
-      </body>
-    </html>
-  )
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode
+}) {
+	return (
+		<html lang="en">
+		<body>
+			<ClerkProvider>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+					<Navbar />
+					<main suppressHydrationWarning>{children}</main>
+					<Footer />
+				</ThemeProvider>
+			</ClerkProvider>
+		</body>
+	</html>
+	)
 }
