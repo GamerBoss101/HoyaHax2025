@@ -15,9 +15,6 @@ const AccountPage = () => {
 		if (user) {
 			axios.get(`/api/user?userId=${user.id}`).then(response => {
 				setUserData(response.data);
-				if (response.data.role === 'caregiver') {
-					axios.get('/api/patients').then(res => setPatients(res.data));
-				}
 			});
 		}
 	}, [user]);
@@ -35,7 +32,7 @@ const AccountPage = () => {
 		setMedications([...medications, { name: '', dosage: '', frequency: '' }]);
 	}
 
-	const [diagnoses, setDiagnoses] = useState(userData.diagnoses || []);
+	const [diagnoses, setDiagnoses] = useState([]);
 	const handleDiagnosesChange = (e) => {
 		setDiagnoses(e.target.value.split(','));
 	}
