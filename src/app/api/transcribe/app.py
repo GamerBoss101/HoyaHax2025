@@ -24,9 +24,8 @@ async def transcribe_audio(file: UploadFile = File(...)):
 
     try:
         # Transcribe the audio
-        result = model.transcribe("inputs/test.mp3")
+        result = model.transcribe(temp_path)
         transcription = result["text"]
-        print(transcription)
     finally:
         # Clean up temporary file
         os.remove(temp_path)
