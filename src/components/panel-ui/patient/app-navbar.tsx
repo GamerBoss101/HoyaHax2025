@@ -3,9 +3,7 @@ import { Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import {
-	SignInButton,
 	SignedIn,
-	SignedOut,
 	UserButton
 } from '@clerk/nextjs';
 
