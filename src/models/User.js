@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
 
-const User = new mongoose.Schema(
+const UserSchema = new Schema(
   {
     name: {
       type: String,
@@ -13,14 +13,12 @@ const User = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-
     role: {
       type: String,
       required: true,
       enum: ["patient", "caregiver"],
       default: "patient",
     },
-
     dateOfBirth: {
       type: Date,
     },
@@ -43,12 +41,11 @@ const User = new mongoose.Schema(
       relationship: String,
       phone: String,
     },
-
     patients: {
       type: [
         {
           patientId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "User",
           },
           relationship: String,
@@ -62,4 +59,4 @@ const User = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.User || mongoose.model("User", User);
+export const User = models.User || model("User", UserSchema);
