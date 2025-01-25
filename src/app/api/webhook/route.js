@@ -38,7 +38,10 @@ export async function POST(req) {
 
     await connectDB();
 
-    const { name, email } = await req.json();
+    const { first_name, last_name, email_addresses } = await req.json();
+    const email = email_addresses && email_addresses[0] ? email_addresses[0].email_address : null;
+
+    const name = first_name && last_name ? `${first_name} ${last_name}` : first_name || last_name;
 
     if (!name || !email) {
       return NextResponse.json(
