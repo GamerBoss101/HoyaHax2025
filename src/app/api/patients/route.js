@@ -20,13 +20,14 @@ export async function GET() {
   }
 }
 
-export async function PUT(req, { params }) {
+export async function PUT(req) {
   console.log('Processing patient update request...');
   
   await connectDB();
 
   try {
-    const { email } = params;
+    const url = new URL(req.url);
+    const email = url.searchParams.get('email');
 
     if (!email) {
       console.log('No email provided');

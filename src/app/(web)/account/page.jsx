@@ -56,13 +56,18 @@ const AccountPage = () => {
 	};
 
 	const handleSave = async () => {
-		await axios.put(`/api/patients/${selectedPatient.email}`, {
+		try {
+			await axios.put(`/api/patients?email=${selectedPatient.email}`, {
 			medications,
 			medicalConditions: diagnoses,
-		});
-		alert('Patient data updated successfully');
+			});
+			alert('Patient data updated successfully');
+		} catch (error) {
+			console.error('Error updating patient data:', error);
+			alert('Failed to update patient data');
+		}
 	};
-
+	  
 	if (!userData) return <div>Loading...</div>;
 
 	return (
