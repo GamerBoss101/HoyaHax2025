@@ -1,5 +1,6 @@
 "use client"
 
+import { ClerkProvider } from '@clerk/nextjs';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -14,11 +15,13 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 		<body>
-			<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-				<Navbar />
-				<main suppressHydrationWarning>{children}</main>
-				<Footer />
-			</ThemeProvider>
+			<ClerkProvider>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+					<Navbar />
+					<main suppressHydrationWarning>{children}</main>
+					<Footer />
+				</ThemeProvider>
+			</ClerkProvider>
 		</body>
 	</html>
 	)

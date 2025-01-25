@@ -1,41 +1,9 @@
 import { User } from '../../../models/User';
 import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
-import mongoose from "mongoose";
+import { connectDB } from '../../../lib/utils';
 
 const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
-
-const DATABASE_URL = process.env.MONGO_URI;
-
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    try {
-      cached.promise = mongoose.connect(DATABASE_URL, opts).then((mongoose) => {
-        console.log('MongoDB connected successfully');
-        return mongoose;
-      });
-    } catch (error) {
-      console.error('Error connecting to MongoDB:', error.message);
-      throw new Error('Error connecting to MongoDB');
-    }
-  }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
 
 export async function POST(req) {
   console.log('Received request:', req);
@@ -81,7 +49,7 @@ export async function POST(req) {
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
-    const { first_name, last_name, email_addresses } = evt.data;
+    const { id, first_name, last_name, email_addresses } = evt.data;
     const email = email_addresses?.[0]?.email_address || null;
 
     if (!email) {
@@ -106,6 +74,7 @@ export async function POST(req) {
     }
 
     user = new User({
+      id,
       name,
       email,
       role: 'patient',
