@@ -9,7 +9,7 @@ export default async (req, res) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const user = await User.findOne({ clerkId: userId });
+  const user = await User.findOne({ id: userId });
 
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
