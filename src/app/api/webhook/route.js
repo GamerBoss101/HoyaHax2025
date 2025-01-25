@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { User } from '../../../models/User';
 import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
-import connectDB from '../../../lib/connectDB';
+import connectDB from '../../lib/connectDB';
 
 const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
