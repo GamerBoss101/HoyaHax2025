@@ -49,7 +49,7 @@ export async function POST(req) {
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
-    const { first_name, last_name, email_addresses } = evt.data;
+    const { id, first_name, last_name, email_addresses } = evt.data;
     const email = email_addresses?.[0]?.email_address || null;
 
     if (!email) {
