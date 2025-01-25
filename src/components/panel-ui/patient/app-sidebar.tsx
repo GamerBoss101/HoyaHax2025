@@ -18,7 +18,7 @@ export default function Sidebar() {
 			<SidebarHeader>
 				<h2 className="text-xl font-bold p-4">Dashboard</h2>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className="mx-4">
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
