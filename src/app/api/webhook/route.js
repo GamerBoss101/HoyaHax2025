@@ -1,7 +1,6 @@
 import { User } from '../../../models/User';
 import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
-import connectDB from '../../lib/connectDB';
 import mongoose from "mongoose";
 
 const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
