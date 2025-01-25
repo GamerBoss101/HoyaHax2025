@@ -9,7 +9,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
-model = whisper.load_model("base")  # Load the model once for efficiency
+model = whisper.load_model("turbo")  # Load the model once for efficiency
 
 app.add_middleware(
     CORSMiddleware,
