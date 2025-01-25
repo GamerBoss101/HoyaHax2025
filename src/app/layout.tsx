@@ -1,21 +1,21 @@
-import { ClerkProvider } from '@clerk/nextjs'
-import './globals.css'
-import { HTMLAttributes } from 'react';
+"use client";
 
-export default function RootLayout({
-  children,
-  style
-}: {
-  children: React.ReactNode;
-  style?: HTMLAttributes<HTMLDivElement>['style'];
-}) {
+import { ClerkProvider } from '@clerk/nextjs';
+import './globals.css';
+import { ReactNode } from 'react';
+
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <ClerkProvider>
-      <html lang="en" style={style}>
+      <html lang="en">
         <body className="centered-content">
           {children}
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }
