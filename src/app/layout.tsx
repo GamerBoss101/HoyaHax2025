@@ -1,29 +1,23 @@
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
+"use client"
+
+import { Navbar } from '@/components/navbar';
+import { ThemeProvider } from '@/components/theme-provider';
+
 import './globals.css'
+
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode
+	children: React.ReactNode
 }) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
-  )
+	return (
+		<html lang="en">
+		<body>
+			<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+				<Navbar />
+				<main>{children}</main>
+			</ThemeProvider>
+		</body>
+	</html>
+	)
 }
