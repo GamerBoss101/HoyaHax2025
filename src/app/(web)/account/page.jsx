@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/nextjs';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Label } from '../../../components/ui/label';
