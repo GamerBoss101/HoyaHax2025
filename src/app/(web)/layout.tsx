@@ -7,11 +7,11 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import '../globals.css'
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode
-}) {
+interface RootLayoutProps {
+	children: React.ReactNode;
+  }
+  
+export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="en">
 		<body>
