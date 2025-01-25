@@ -8,9 +8,9 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <div>
+        <main className="w-full" suppressHydrationWarning>
             <AppSidebar />
-            <main suppressHydrationWarning>{children}</main>
-        </div>
+            {children}
+        </main>
     )
 }

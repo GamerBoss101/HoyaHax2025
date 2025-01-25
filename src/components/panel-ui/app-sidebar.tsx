@@ -9,7 +9,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarProvider
+	SidebarProvider,
 } from "@/components/ui/sidebar"
 
 // Menu items.
