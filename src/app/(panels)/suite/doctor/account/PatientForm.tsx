@@ -9,14 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 
-export function PersonForm({ person }: any) {
+export function PersonForm({ person }: { person: { email: string, name: string, medications: any[], diagnoses: string[] } }) {
 
     const [medications, setMedications] = useState(person.medications || [])
-
-    async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-
-    }
 
     const [diagnoses, setDiagnoses] = useState(person.diagnoses || [])
 
@@ -58,7 +53,7 @@ export function PersonForm({ person }: any) {
                 <div className="mb-4">
                     <Label>Medications:</Label>
                     <br />
-                    {medications.map((medication: any, index: number) => (
+                    {medications.map((medication: { name: string, dosage: string, frequency:string }, index: number) => (
                         <div key={index} className="mb-2 grid grid-cols-3 gap-2">
                             <Input
                                 type="text"
