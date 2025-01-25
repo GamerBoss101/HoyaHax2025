@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { User } from '../../../models/User';
 import crypto from 'crypto';
+import { NextResponse } from 'next/server';
 
 const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
@@ -12,34 +13,46 @@ async function connectDB() {
   });
 }
 
-export default async function handler(req, res) {
+export async function POST(req) {
   if (req.method !== 'POST') {
-    return res.status(405).send('Method Not Allowed');
+    return NextResponse.json(
+      { message: 'Method Not Allowed' },
+      { status: 405 }
+    );
   }
 
   try {
-    const webhookSignature = req.headers['clerk-signature'];
-    const payload = JSON.stringify(req.body);
+    const webhookSignature = req.headers.get('clerk-signature');
+    const payload = JSON.stringify(await req.json());
 
     const hmac = crypto.createHmac('sha256', CLERK_WEBHOOK_SECRET);
     hmac.update(payload);
     const computedSignature = hmac.digest('hex');
 
     if (computedSignature !== webhookSignature) {
-      return res.status(400).send('Invalid webhook signature');
+      return NextResponse.json(
+        { message: 'Invalid webhook signature' },
+        { status: 400 }
+      );
     }
 
     await connectDB();
 
-    const { name, email } = req.body;
+    const { name, email } = await req.json();
 
     if (!name || !email) {
-      return res.status(400).send('Name and email are required');
+      return NextResponse.json(
+        { message: 'Name and email are required' },
+        { status: 400 }
+      );
     }
 
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).send('User already exists');
+      return NextResponse.json(
+        { message: 'User already exists' },
+        { status: 400 }
+      );
     }
 
     user = new User({
@@ -52,9 +65,15 @@ export default async function handler(req, res) {
 
     await user.save();
 
-    res.status(200).json({ message: 'User successfully created' });
+    return NextResponse.json(
+      { message: 'User successfully created' },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal server error');
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
