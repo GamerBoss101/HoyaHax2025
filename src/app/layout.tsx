@@ -15,7 +15,7 @@ export default function RootLayout({
 		<body>
 			<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 				<Navbar />
-				<main>{children}</main>
+				<main suppressHydrationWarning>{children}</main>
 			</ThemeProvider>
 		</body>
 	</html>
