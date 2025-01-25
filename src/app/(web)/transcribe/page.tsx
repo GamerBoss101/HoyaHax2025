@@ -37,8 +37,8 @@ const AudioTranscriber: React.FC = () => {
 	};
 
 	return (
-		<div>
-			<h1>Audio Transcription</h1>
+		<div className="h-screen container mx-auto block items-center justify-center p-6">
+			<h1>Audio Transcription: </h1>
 			<input type="file" accept="audio/*" onChange={handleFileChange} />
 			<button onClick={handleTranscription} disabled={loading}>
 				{loading ? "Transcribing..." : "Transcribe"}
