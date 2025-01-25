@@ -13,16 +13,17 @@ async function connectDB() {
 
 const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
-if (!CLERK_WEBHOOK_SECRET) {
-  console.error('CLERK_WEBHOOK_SECRET is missing');
-  return NextResponse.json(
-    { message: 'Internal server error: Secret missing' },
-    { status: 500 }
-  );
-}
 
 export async function POST(req) {
   console.log('Received request:', req);
+
+  if (!CLERK_WEBHOOK_SECRET) {
+    console.error('CLERK_WEBHOOK_SECRET is missing');
+    return NextResponse.json(
+      { message: 'Internal server error: Secret missing' },
+      { status: 500 }
+    );
+  }
 
   if (req.method !== 'POST') {
     return NextResponse.json(
