@@ -1,38 +1,73 @@
-import User from '../../models/User';
+import { User } from '../../models/User';
 import { connectDB } from '../../lib/utils';
+import { NextResponse } from 'next/server';
 
-export default async (req, res) => {
-    const { userId } = req.query;
-  
-    console.log('Received request with userId:', userId);
-  
-    if (!userId) {
-      console.log('No userId provided');
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-  
-    await connectDB();
-  
-    const user = await User.findOne({ id: userId });
-  
-    if (!user) {
-      console.log('User not found for userId:', userId);
-      return res.status(404).json({ message: 'User not found' });
-    }
-  
-    if (req.method === 'GET') {
-      console.log('Returning user data:', user);
-      res.json(user);
-    } else if (req.method === 'PUT') {
-      const { role } = req.body;
-      console.log('Updating user role to:', role);
-      user.role = role;
-      await user.save();
-      console.log('User role updated successfully');
-      res.json(user);
-    } else {
-      console.log('Method not allowed:', req.method);
-      res.status(405).json({ message: 'Method not allowed' });
-    }
-  };
-  
+export async function GET(req) {
+  const userId = req.nextUrl.searchParams.get('userId');
+
+  console.log('Received GET request with userId:', userId);
+
+  if (!userId) {
+    console.error('No userId provided');
+    return NextResponse.json(
+      { message: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
+  await connectDB();
+
+  const user = await User.findOne({ id: userId });
+
+  if (!user) {
+    console.error('User not found for userId:', userId);
+    return NextResponse.json(
+      { message: 'User not found' },
+      { status: 404 }
+    );
+  }
+
+  console.log('Returning user data:', user);
+  return NextResponse.json(user, { status: 200 });
+}
+
+export async function PUT(req) {
+  const userId = req.nextUrl.searchParams.get('userId');
+  const { role } = await req.json();
+
+  console.log('Received PUT request with userId:', userId, 'and role:', role);
+
+  if (!userId) {
+    console.error('No userId provided');
+    return NextResponse.json(
+      { message: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
+  await connectDB();
+
+  const user = await User.findOne({ id: userId });
+
+  if (!user) {
+    console.error('User not found for userId:', userId);
+    return NextResponse.json(
+      { message: 'User not found' },
+      { status: 404 }
+    );
+  }
+
+  if (!role) {
+    console.error('No role provided in request body');
+    return NextResponse.json(
+      { message: 'Role is required' },
+      { status: 400 }
+    );
+  }
+
+  user.role = role;
+  await user.save();
+
+  console.log('User role updated successfully');
+  return NextResponse.json(user, { status: 200 });
+}

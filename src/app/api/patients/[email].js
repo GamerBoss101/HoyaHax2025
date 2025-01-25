@@ -1,28 +1,52 @@
-import User from '../../../models/User';
-import connectDB from '../../../lib/utils';
+import { User } from '../../../models/User';
+import { connectDB } from '../../../lib/utils';
+import { NextResponse } from 'next/server';
 
-export default async (req, res) => {
+export async function PUT(req) {
+  console.log('Processing patient update request...');
+  
   await connectDB();
 
-  const { email } = req.query;
-  const { medications, medicalConditions } = req.body;
+  try {
+    const url = new URL(req.url);
+    const email = url.searchParams.get('email');
 
-  console.log('Received request to update patient with email:', email);
-  console.log('Medications:', medications);
-  console.log('Medical Conditions:', medicalConditions);
+    if (!email) {
+      console.log('No email provided');
+      return NextResponse.json(
+        { message: 'Email is required' },
+        { status: 400 }
+      );
+    }
 
-  const patient = await User.findOne({ email });
+    const body = await req.json();
+    const { medications, medicalConditions } = body;
 
-  if (!patient) {
-    console.log('Patient not found for email:', email);
-    return res.status(404).json({ message: 'Patient not found' });
+    console.log('Updating patient with email:', email);
+    console.log('Medications:', medications);
+    console.log('Medical Conditions:', medicalConditions);
+
+    const patient = await User.findOne({ email });
+
+    if (!patient) {
+      console.log('Patient not found for email:', email);
+      return NextResponse.json(
+        { message: 'Patient not found' },
+        { status: 404 }
+      );
+    }
+
+    patient.medications = medications;
+    patient.medicalConditions = medicalConditions;
+    await patient.save();
+
+    console.log('Patient data updated successfully:', patient);
+    return NextResponse.json(patient, { status: 200 });
+  } catch (error) {
+    console.error('Error updating patient data:', error);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
   }
-
-  patient.medications = medications;
-  patient.medicalConditions = medicalConditions;
-  await patient.save();
-
-  console.log('Patient data updated successfully:', patient);
-
-  res.json(patient);
-};
+}
