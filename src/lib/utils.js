@@ -1,24 +1,15 @@
-import { clsx, type ClassValue } from "clsx";
+import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
-export function cn(...inputs: ClassValue[]): string {
+export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-interface Cached {
-  conn: Mongoose | null;
-  promise: Promise<Mongoose> | null;
-}
+const cached = global.mongoose || { conn: null, promise: null };
 
-declare global {
-  var mongoose: Cached | undefined;
-}
-
-let cached: Cached = global.mongoose || { conn: null, promise: null };
-
-export async function connectDB(): Promise<Mongoose> {
-  const DATABASE_URL = process.env.MONGO_URI as string;
+export async function connectDB() {
+  const DATABASE_URL = process.env.MONGO_URI;
 
   if (cached.conn) {
     return cached.conn;
