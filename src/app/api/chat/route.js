@@ -30,9 +30,9 @@ export async function POST(req) {
       frequency_penalty: 0,
       stop: [],
       response_format: null,
-      stream: true,
+      stream: false,
       stream_options: {
-        include_usage: true,
+        include_usage: false,
       },
     };
 
