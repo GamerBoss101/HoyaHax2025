@@ -2,7 +2,7 @@
 //import Hero1 from '@/components/Hero1'
 //IMPORT THE HERO1 FUNCTION TO MAKE THE TRANSCRIBE PAGE LOOK BETTER
 import React, { useState, useRef } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 const AudioTranscriber: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -32,24 +32,25 @@ const AudioTranscriber: React.FC = () => {
 
     const formData = new FormData();
     formData.append("file", audioFile);
-
+    console.log(audioFile);
     setLoading(true);
     setError(null); // Clear previous errors
     try {
-      const response = await axios.post("http://localhost:8000/transcribe", formData, {
+      const response = await fetch("/api/transcribe", {
+        method: "POST",
+        body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-        },
-      });
+        }
+      }) 
+      console.log("Transcription response:", response);
 
-      console.log("Transcription response:", response.data);
-
-      if (response.data && response.data.transcription) {
-        setTranscription(response.data.transcription);
-      } else {
-        setError("Unexpected response format. Check backend API.");
-        console.error("Invalid response format:", response.data);
-      }
+      // if (response.data && response.data.transcription) {
+      //   setTranscription(response.data.transcription);
+      // } else {
+      //   setError("Unexpected response format. Check backend API.");
+      //   console.error("Invalid response format:", response.data);
+      // }
     } catch (error) {
       console.error("Error transcribing audio:", error);
       setError("Failed to transcribe audio. Please try again.");
