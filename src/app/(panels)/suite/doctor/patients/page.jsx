@@ -12,11 +12,12 @@ import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import PersonForm from "@/components/PersonForm";
+import {PersonForm} from "./PatientForm";
 import { Card } from "@/components/ui/card";
 
 
-export default function Dashboard() {
+
+export default function PatientsDOC() {
 
     const router = useRouter();
     const { user } = useUser();
@@ -25,14 +26,17 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (user) {
-            axios.get(`/api/user?userId=${user.id}`).then(response => {
-                setUserData(response.data);
-            });
+			axios.get(`/api/user?userId=${user.id}`).then(response => {
+				setUserData(response.data);
+				if (response.data.role === 'caregiver') {
+					axios.get('/api/patients').then(res => setPatients(res.data));
+				}
+			});
         }
     }, [user]);
 
     if (userData) {
-        if (userData.role != "caregiver") {
+        if (userData.role && userData.role != "caregiver") {
             router.push("/suite/patient/dashboard");
         }
     }
@@ -43,7 +47,7 @@ export default function Dashboard() {
             <div className="h-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <Card>
                     <CardContent>
-                        {userData.role === 'caregiver' && (
+                        {userData && userData.role === 'caregiver' && (
                             <div>
                                 <ul className="mb-4">
                                     {patients.map(patient => (
