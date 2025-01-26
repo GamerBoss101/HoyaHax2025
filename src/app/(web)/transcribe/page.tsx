@@ -1,7 +1,7 @@
 /*
-
 "use client";
-
+//import Hero1 from '@/components/Hero1'
+//IMPORT THE HERO1 FUNCTION TO MAKE THE TRANSCRIBE PAGE LOOK BETTER
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
@@ -18,48 +18,59 @@ const AudioTranscriber: React.FC = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0]);
+      console.log("File selected:", event.target.files[0].name);
     }
   };
 
-  // Send the file to the backend for transcription
+  // Handle file transcription
   const handleTranscription = async (audioFile: File) => {
+    if (!audioFile) {
+      alert("No audio file to transcribe!");
+      return;
+    }
+
+    console.log("Starting transcription for:", audioFile.name);
+
     const formData = new FormData();
     formData.append("file", audioFile);
-  
+
     setLoading(true);
-    setError(null);
-  
+    setError(null); // Clear previous errors
     try {
-      const response = await axios.post("/api/transcribe", formData, {
+      const response = await axios.post("http://localhost:8000/transcribe", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
-      // Handle missing transcription property in the response
+
+      console.log("Transcription response:", response.data);
+
       if (response.data && response.data.transcription) {
         setTranscription(response.data.transcription);
       } else {
-        setError("No transcription available.");
+        setError("Unexpected response format. Check backend API.");
+        console.error("Invalid response format:", response.data);
       }
     } catch (error) {
-      console.error("Error during transcription:", error);
+      console.error("Error transcribing audio:", error);
       setError("Failed to transcribe audio. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-  
 
   // Start recording audio
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      console.log("Microphone access granted.");
+
       mediaRecorderRef.current = new MediaRecorder(stream);
-      audioChunksRef.current = [];
+      audioChunksRef.current = []; // Reset audio chunks
 
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
+          console.log("Audio chunk received:", event.data);
           audioChunksRef.current.push(event.data);
         }
       };
@@ -68,11 +79,15 @@ const AudioTranscriber: React.FC = () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: "audio/mp3" });
         const audioFile = new File([audioBlob], "recording.mp3", { type: "audio/mp3" });
 
+        console.log("Recording stopped. Blob created:", audioBlob);
+
         setFile(audioFile); // Save the recorded file
+        setTranscription("Processing transcription for recorded audio...");
         await handleTranscription(audioFile); // Automatically transcribe
       };
 
       mediaRecorderRef.current.start();
+      console.log("Recording started.");
       setRecording(true);
     } catch (error) {
       console.error("Error starting recording:", error);
@@ -83,6 +98,7 @@ const AudioTranscriber: React.FC = () => {
   // Stop recording audio
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
+      console.log("Stopping recording...");
       mediaRecorderRef.current.stop();
       setRecording(false);
     }
@@ -90,19 +106,25 @@ const AudioTranscriber: React.FC = () => {
 
   return (
     <div>
-      <h1>Audio Transcription Tool</h1>
-
+      <h1>
+        <center>
+          Audio Transcription
+          </center>
+        </h1>
       <div>
         <h2>Upload or Record Audio</h2>
+        {/* File Upload */     //}
+
+  /*
         <input type="file" accept="audio/*" onChange={handleFileChange} />
-        <button
-          onClick={() => file && handleTranscription(file)}
-          disabled={loading || !file}
-        >
+        <button onClick={() => file && handleTranscription(file)} disabled={loading || !file}>
           {loading ? "Transcribing..." : "Transcribe"}
         </button>
       </div>
 
+      {/* Recording Controls */    //}
+
+      /*
       <div>
         <h2>Record Audio</h2>
         {!recording ? (
@@ -114,13 +136,23 @@ const AudioTranscriber: React.FC = () => {
         )}
       </div>
 
-      {transcription && (
-        <div>
-          <h2>Transcription:</h2>
-          <p>{transcription}</p>
-        </div>
-      )}
+      {/* Transcription Result */     //}
 
+      /*
+      <div>
+        <h2>Transcription:</h2>
+        {loading ? (
+          <p>Processing transcription...</p>
+        ) : transcription ? (
+          <p>{transcription}</p>
+        ) : (
+          <p>No transcription available yet.</p>
+        )}
+      </div>
+
+      {/* Error Message */     //}
+
+      /*
       {error && (
         <div style={{ color: "red" }}>
           <strong>Error:</strong> {error}
@@ -131,9 +163,7 @@ const AudioTranscriber: React.FC = () => {
 };
 
 export default AudioTranscriber;
-
 */
-
 
 "use client"
 
