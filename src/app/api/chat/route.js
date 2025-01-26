@@ -7,7 +7,8 @@ export async function POST(req) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.FRIENDLI_API_KEY}`,
+        "Authorization": `Bearer ${process.env.FRIENDLI_TOKEN}`,
+        "X-Friendli-Team": process.env.TEAM_ID,
       },
       body: JSON.stringify({ id: "idv6w0upi158", query }),
     });
@@ -17,7 +18,7 @@ export async function POST(req) {
       console.error("Friendli API error:", errorDetails);
       return new Response(
         JSON.stringify({ error: "Failed to fetch data from Friendli API" }),
-        { status: 500 }
+        { status: response.status }
       );
     }
 
@@ -25,8 +26,9 @@ export async function POST(req) {
     return new Response(JSON.stringify({ answer: data.answer }), { status: 200 });
   } catch (error) {
     console.error("Backend error:", error);
-    return new Response(JSON.stringify({ error: "Error generating response" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ error: "Error processing the request" }),
+      { status: 500 }
+    );
   }
 }
