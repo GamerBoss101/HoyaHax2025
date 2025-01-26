@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/connectDB.js", "src/lib/utils.js", "src/app/(web)/account/page.jsx", "src/app/(panels)/suite/patient/account/page.jsx", "src/app/(panels)/suite/patient/dashboard/MedicationTable.jsx", "src/app/(panels)/suite/patient/dashboard/page.jsx", "src/app/api/transcribe/route.js", "src/components/ui/calendar.jsx", "src/app/(web)/page.jsx", "src/app/(web)/transcribe/page.jsx", "src/app/(web)/login/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/connectDB.js", "src/lib/utils.js", "src/app/(web)/account/page.jsx", "src/app/(panels)/suite/patient/account/page.jsx", "src/app/(panels)/suite/patient/dashboard/MedicationTable.jsx", "src/app/(panels)/suite/patient/dashboard/page.jsx", "src/app/api/transcribe/route.js", "src/components/ui/calendar.jsx", "src/app/(web)/page.jsx", "src/app/(web)/transcribe/page.jsx", "src/app/(web)/login/page.jsx", "src/app/(panels)/suite/layout.jsx"],
   "exclude": ["node_modules"]
 }
