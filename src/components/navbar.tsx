@@ -18,7 +18,7 @@ export function Navbar() {
 			<div className="container flex h-14 items-center mx-auto">
 				<div className="mr-4 hidden md:flex">
 					<Link href="/" className="mr-6 flex items-center space-x-2">
-						<span className="hidden font-bold sm:inline-block">PostCare</span>
+						<span className="hidden font-bold sm:inline-block">Patsafe</span>
 					</Link>
 					<nav className="flex items-center space-x-6 text-sm font-medium">
 						<Link href="/transcribe" className="transition-colors hover:text-foreground/80 text-foreground/60">
