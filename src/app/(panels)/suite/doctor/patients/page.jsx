@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
-import { CardContent } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
