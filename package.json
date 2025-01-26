@@ -38,7 +38,7 @@
     "openai": "^4.80.1",
     "openai-whisper": "^1.0.2",
     "react": "^19.0.0",
-    "react-day-picker": "^8.10.1",
+    "react-day-picker": "^9.5.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.15.0",
     "svix": "^1.45.1",
