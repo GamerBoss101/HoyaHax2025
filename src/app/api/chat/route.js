@@ -31,9 +31,6 @@ export async function POST(req) {
       stop: [],
       response_format: null,
       stream: false,
-      stream_options: {
-        include_usage: false,
-      },
     };
 
     const response = await fetch(
