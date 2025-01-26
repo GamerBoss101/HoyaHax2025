@@ -12,95 +12,106 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Chat() {
+<<<<<<< HEAD
+	const router = useRouter();
+	const { user } = useUser();
+	const [userData, setUserData] = useState(null);
+	const [userQuery, setUserQuery] = useState("");
+	const [chatHistory, setChatHistory] = useState <
+		{ type: "user" | "bot", text: string }
+		> ([]);
+	const [loading, setLoading] = useState(false);
+=======
   const router = useRouter();
   const { user } = useUser();
   const [userData, setUserData] = useState(null);
   const [userQuery, setUserQuery] = useState("");
   const [chatHistory, setChatHistory] = useState([{type: 'bot', text: 'Hello! How can I help you today?'}]);
   const [loading, setLoading] = useState(false);
+>>>>>>> 741c8533456bcb3581f3ec92709b9a6d2ffb6572
 
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(`/api/user?userId=${user.id}`)
-        .then((response) => {
-          setUserData(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-        });
-    }
-  }, [user]);
+	useEffect(() => {
+		if (user) {
+			axios
+				.get(`/api/user?userId=${user.id}`)
+				.then((response) => {
+					setUserData(response.data);
+				})
+				.catch((error) => {
+					console.error("Error fetching user data:", error);
+				});
+		}
+	}, [user]);
 
-  useEffect(() => {
-    if (userData && userData.role !== "patient") {
-      router.push("/suite/doctor/dashboard");
-    }
-  }, [userData, router]);
+	useEffect(() => {
+		if (userData && userData.role !== "patient") {
+			router.push("/suite/doctor/dashboard");
+		}
+	}, [userData, router]);
 
-  const handleSend = async () => {
-    if (!userQuery.trim()) return;
+	const handleSend = async () => {
+		if (!userQuery.trim()) return;
 
-    setLoading(true);
+		setLoading(true);
 
-    try {
-      const response = await axios.post("/api/chat", { query: userQuery });
+		try {
+			const response = await axios.post("/api/chat", { query: userQuery });
 
-      const botResponse = response.data?.answer || "No response from the bot.";
+			const botResponse = response.data?.answer || "No response from the bot.";
 
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { type: "user", text: userQuery },
-        { type: "bot", text: botResponse },
-      ]);
+			setChatHistory((prevHistory) => [
+				...prevHistory,
+				{ type: "user", text: userQuery },
+				{ type: "bot", text: botResponse },
+			]);
 
-      setUserQuery("");
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { type: "user", text: userQuery },
-        { type: "bot", text: "An error occurred while processing your request." },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
+			setUserQuery("");
+		} catch (error) {
+			console.error("Error sending message:", error);
+			setChatHistory((prevHistory) => [
+				...prevHistory,
+				{ type: "user", text: userQuery },
+				{ type: "bot", text: "An error occurred while processing your request." },
+			]);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-  return (
-    <div className="container mx-auto">
-      <div className="grid gap-4">
-        <Card>
-          <CardContent className="space-y-4 p-4">
-            <div className="block items-center">
-              {chatHistory.map((msg, idx) => (
-                <Message
-                  key={idx}
-                  avatarUrl="/vercel.svg"
-                  message={msg.text}
-                  sender={msg.type === "user" ? "You" : "Bot"}
-                />
-              ))}
-            </div>
-            <div className="flex items-center">
-              <Input
-                id="message"
-                placeholder="Ask a medical question"
-                value={userQuery}
-                onChange={(e) => setUserQuery(e.target.value)}
-                className="flex-grow mx-0 rounded-none"
-              />
-              <Button
-                className="mx-0 rounded-none"
-                onClick={handleSend}
-                disabled={loading}
-              >
-                {loading ? "Loading..." : "Send"}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
+	return (
+		<div className="container mx-auto">
+			<div className="grid gap-4">
+				<Card>
+					<CardContent className="space-y-4 p-4">
+						<div className="block items-center">
+							{chatHistory.map((msg, idx) => (
+								<Message
+									key={idx}
+									avatarUrl="/vercel.svg"
+									message={msg.text}
+									sender={msg.type === "user" ? "You" : "Bot"}
+								/>
+							))}
+						</div>
+						<div className="flex items-center">
+							<Input
+								id="message"
+								placeholder="Ask a medical question"
+								value={userQuery}
+								onChange={(e) => setUserQuery(e.target.value)}
+								className="flex-grow mx-0 rounded-none"
+							/>
+							<Button
+								className="mx-0 rounded-none"
+								onClick={handleSend}
+								disabled={loading}
+							>
+								{loading ? "Loading..." : "Send"}
+							</Button>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+		</div>
+	);
 }

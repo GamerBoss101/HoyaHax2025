@@ -15,6 +15,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import {PersonForm} from "./PatientForm";
 import { Card } from "@/components/ui/card";
 
+import { faker } from "@faker-js/faker";
 
 
 export default function PatientsDOC() {
@@ -36,10 +37,36 @@ export default function PatientsDOC() {
     }, [user]);
 
     if (userData) {
-        if (userData.role && userData.role != "caregiver") {
+        if (userData && userData.role != "caregiver") {
             router.push("/suite/patient/dashboard");
         }
     }
+
+    function generateFakePatients(count) {
+        return Array.from({ length: count }, () => ({
+            id: faker.string.uuid(),
+            name: faker.person.fullName(),
+            age: faker.number.int({ min: 18, max: 100 }),
+            gender: faker.helpers.arrayElement(["male", "female", "other"]),
+            bloodType: faker.helpers.arrayElement(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+            lastCheckup: faker.date.recent({ days: 90 }),
+            symptoms: faker.helpers.arrayElements(
+                ["Fever", "Cough", "Fatigue", "Shortness of breath", "Headache", "Nausea", "Dizziness", "Chest pain"],
+                { min: 0, max: 3 },
+            ),
+            vitalSigns: {
+                temperature: faker.number.float({ min: 36.1, max: 37.5, precision: 0.1 }),
+                heartRate: faker.number.int({ min: 60, max: 100 }),
+                bloodPressure: `${faker.number.int({ min: 90, max: 140 })}/${faker.number.int({ min: 60, max: 90 })}`,
+                respiratoryRate: faker.number.int({ min: 12, max: 20 }),
+            },
+        }))
+    }
+
+    let fakePatients = generateFakePatients(20);
+
+    // add two arrays together
+    let finalPatients = patients.concat(fakePatients);
 
     return (
         <div className="container mx-auto">
@@ -50,12 +77,13 @@ export default function PatientsDOC() {
                         {userData && userData.role === 'caregiver' && (
                             <div>
                                 <ul className="mb-4">
-                                    {patients.map(patient => (
+                                    {finalPatients.map(patient => (
                                         <Collapsible key={patient.id}>
                                             <div className="flex items-center justify-between p-2 bg-gray-100 dark:bg-neutral-800 rounded-t-lg">
                                                 <div>
                                                     <h2 className="text-lg font-semibold">{patient.name}</h2>
-                                                    <p className="text-sm text-gray-400">{patient.role}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-neutral-400">Age: {patient.age}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-neutral-400">Last Checkup: {new Date(patient.lastCheckup).toLocaleDateString()}</p>
                                                 </div>
                                                 <CollapsibleTrigger asChild>
                                                     <Button variant="ghost" size="sm">
