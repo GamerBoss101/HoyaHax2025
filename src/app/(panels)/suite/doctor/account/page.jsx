@@ -12,7 +12,10 @@ import { ChevronDown } from "lucide-react"
 
 import { PersonForm } from './PatientForm';
 
+import { useRouter } from 'next/navigation';
+
 const AccountPage = () => {
+	const router = useRouter();
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
 	const [patients, setPatients] = useState([]);
@@ -40,7 +43,9 @@ const AccountPage = () => {
 		}
 	};
 
-	if (!userData) return <div>Loading...</div>;
+	if (!userData) {
+		router.push('/');
+	}
 
 	return (
 		<div className="container mx-auto p-4">

@@ -2,8 +2,33 @@
 
 import { PatientTable } from "./PatientTable"
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useUser } from '@clerk/nextjs';
+
 
 export default function Dashboard() {
+
+    const router = useRouter();
+	const { user } = useUser();
+	const [userData, setUserData] = useState(null);
+
+	useEffect(() => {
+		if (user) {
+			axios.get(`/api/user?userId=${user.id}`).then(response => {
+				setUserData(response.data);
+			});
+		}
+	}, [user]);
+
+	if (userData) {
+        if (userData.role !== "doctor") {
+            router.push("/suite/patient/dashboard");
+        }
+	} else {
+        router.push("/");
+    }
 
     const patients = [
         { id: 1, name: "John Doe", age: 30, lastVisit: "2024-10-01" },

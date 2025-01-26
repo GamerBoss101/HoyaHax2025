@@ -8,7 +8,33 @@ import { Input } from "@/components/ui/input"
 
 import { Card, CardContent } from "@/components/ui/card"
 
+import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 export default function Chat() {
+    const router = useRouter();
+	const { user } = useUser();
+	const [userData, setUserData] = useState(null);
+
+	useEffect(() => {
+		if (user) {
+			axios.get(`/api/user?userId=${user.id}`).then(response => {
+				setUserData(response.data);
+			});
+		}
+	}, [user]);
+
+	if (userData) {
+        if (userData.role !== "doctor") {
+            router.push("/suite/patient/dashboard");
+        }
+	} else {
+        router.push("/");
+    }
+
     return (
         <div className="container mx-auto">
             <div className="grid gap-4">

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 const AccountPage = () => {
+    const router = useRouter();
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
 
@@ -18,9 +19,13 @@ const AccountPage = () => {
 		}
 	}, [user]);
 
-	if (!userData) return <div>Loading...</div>;
-
-	console.log(userData);
+	if (userData) {
+        if (userData.role !== "doctor") {
+            router.push("/suite/patient/dashboard");
+        }
+	} else {
+        router.push("/");
+    }
 
 	return (
 		<div className="container mx-auto p-4">

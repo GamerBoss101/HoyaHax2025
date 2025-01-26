@@ -3,13 +3,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 import { IntenseChart } from "./IntensityChart"
 import { MedicationTable } from "./MedicationTable"
 
 export default function Dashboard() {
 
-    const { user } = useUser();
+    const router = useRouter();
+	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
@@ -18,7 +20,15 @@ export default function Dashboard() {
 				setUserData(response.data);
 			});
 		}
-	}, [user]);   
+	}, [user]);
+
+	if (userData) {
+        if (userData.role !== "doctor") {
+            router.push("/suite/patient/dashboard");
+        }
+	} else {
+        router.push("/");
+    } 
 
     return (
         <div className="container mx-auto">
