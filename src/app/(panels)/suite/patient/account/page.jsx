@@ -6,6 +6,8 @@ import { useUser } from '@clerk/nextjs';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
+import { useRouter } from 'next/navigation';
+
 const AccountPage = () => {
     const router = useRouter();
 	const { user } = useUser();
@@ -24,6 +26,8 @@ const AccountPage = () => {
             router.push("/suite/patient/dashboard");
         }
 	}
+
+	if (!userData) return <div>Loading...</div>;
 	
 	return (
 		<div className="container mx-auto p-4">
