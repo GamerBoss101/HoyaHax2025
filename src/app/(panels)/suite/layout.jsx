@@ -28,13 +28,13 @@ export default function RootLayout({
 		}
 	} else {
         window.location.href = "/";
-        window.location.href = "/";
-        return null;
     }
 
 
 
     return (
-		<>{children}</>
-    )
+		<div>
+			{children}
+		</div>
+	)
 }
