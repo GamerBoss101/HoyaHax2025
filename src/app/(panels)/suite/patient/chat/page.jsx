@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Chat() {
+<<<<<<< HEAD
 	const router = useRouter();
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
@@ -20,6 +21,14 @@ export default function Chat() {
 		{ type: "user" | "bot", text: string }
 		> ([]);
 	const [loading, setLoading] = useState(false);
+=======
+  const router = useRouter();
+  const { user } = useUser();
+  const [userData, setUserData] = useState(null);
+  const [userQuery, setUserQuery] = useState("");
+  const [chatHistory, setChatHistory] = useState([{type: 'bot', text: 'Hello! How can I help you today?'}]);
+  const [loading, setLoading] = useState(false);
+>>>>>>> 741c8533456bcb3581f3ec92709b9a6d2ffb6572
 
 	useEffect(() => {
 		if (user) {
