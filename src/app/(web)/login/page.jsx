@@ -37,8 +37,8 @@ export default function LoginPage() {
 
 
 	return (
-		<div className="min-h-screen flex bg-gray-100">
-			<Card className="h-1/4 w-1/4 mx-auto my-20">
+		<div className="min-h-screen flex bg-neutral-200 dark:bg-neutral-900">
+			<Card className="h-1/4 w-1/4 mx-auto my-20 bg-neutral-100 dark:bg-neutral-950 ">
 				<CardHeader className="text-center">
 					<CardTitle>Welcome</CardTitle>
 					<CardDescription>Choose your login type</CardDescription>

@@ -21,12 +21,6 @@ export function Navbar() {
 						<span className="hidden font-bold sm:inline-block">PostCare</span>
 					</Link>
 					<nav className="flex items-center space-x-6 text-sm font-medium">
-						<Link href="/about" className="transition-colors hover:text-foreground/80 text-foreground/60">
-							Mission
-						</Link>
-						<Link href="/products" className="transition-colors hover:text-foreground/80 text-foreground/60">
-							Map
-						</Link>
 						<Link href="/transcribe" className="transition-colors hover:text-foreground/80 text-foreground/60">
 							Transcribe
 						</Link>
