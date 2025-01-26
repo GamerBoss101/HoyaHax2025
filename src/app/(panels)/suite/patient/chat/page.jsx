@@ -16,9 +16,7 @@ export default function Chat() {
   const { user } = useUser();
   const [userData, setUserData] = useState(null);
   const [userQuery, setUserQuery] = useState("");
-  const [chatHistory, setChatHistory] = useState<
-    { type: "user" | "bot", text: string }
-  >([]);
+  const [chatHistory, setChatHistory] = useState([{type: 'bot', text: 'Hello! How can I help you today?'}]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
