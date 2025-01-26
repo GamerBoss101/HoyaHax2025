@@ -22,9 +22,11 @@ export default function RootLayout({
 	}, [user]);
 
 	if (userData) {
+		console.log(userData);
 		if (userData.role === "caregiver" && router.pathname.startsWith("/suite/patient/")) {
 			router.push("/suite/doctor/dashboard");
 		}
+
 		if (userData.role === "patient" && router.pathname.startsWith("/suite/doctor/")) {
 			router.push("/suite/patient/dashboard");
 		}
