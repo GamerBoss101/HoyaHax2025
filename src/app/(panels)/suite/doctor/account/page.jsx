@@ -45,7 +45,7 @@ const AccountPage = () => {
 	if (!userData) return <div>Loading...</div>;
 
 	if (userData) {
-        if (userData.role !== "caregiver") {
+        if (userData.role != "caregiver") {
             router.push("/suite/patient/dashboard");
         }
 	}

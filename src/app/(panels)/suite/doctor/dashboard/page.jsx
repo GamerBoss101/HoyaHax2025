@@ -23,7 +23,7 @@ export default function Dashboard() {
 	}, [user]);
 
 	if (userData) {
-        if (userData.role !== "caregiver") {
+        if (userData.role != "caregiver") {
             router.push("/suite/patient/dashboard");
         }
 	}

@@ -28,7 +28,7 @@ export default function Chat() {
 	}, [user]);
 
 	if (userData) {
-        if (userData.role !== "patient") {
+        if (userData.role != "patient") {
             router.push("/suite/doctor/dashboard");
         }
 	}
