@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from 'next/navigation'
 
 import axios from "axios";
 
 export default function RootLayout({
     children,
 }) {
+	const router = useRouter();
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
 
@@ -21,15 +23,12 @@ export default function RootLayout({
 
 	if (userData) {
 		if (userData.role === "caregiver") {
-			window.location.href = "suite/doctor/dashboard";
+			router.push("/suite/doctor/dashboard");
 		}
 		if (userData.role === "patient") {
-			window.location.href = "suite/patient/dashboard";
+			router.push("/suite/patient/dashboard");
 		}
-	} else {
-        window.location.href = "/";
-    }
-
+	}
 
 
     return (

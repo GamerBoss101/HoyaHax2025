@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
 
+import { useRouter } from 'next/navigation'
+
 import {
 	SignInButton,
 	SignedOut,
@@ -15,6 +17,7 @@ import { Button } from "@/components/ui/button"
 
 export default function LoginPage() {
 
+	const router = useRouter();
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
 
@@ -28,10 +31,10 @@ export default function LoginPage() {
 
 	if (userData) {
 		if (userData.role === "caregiver") {
-			window.location.href = "suite/doctor/dashboard";
+			router.push("/suite/doctor/dashboard");
 		}
 		if (userData.role === "patient") {
-			window.location.href = "suite/patient/dashboard";
+			router.push("/suite/patient/dashboard");
 		}
 	}
 
