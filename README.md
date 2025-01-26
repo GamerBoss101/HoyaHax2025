@@ -68,7 +68,8 @@ PatSafe was built using **Next.js** and **React.js** for the frontend, while the
 * [![Clerk][Clerk]][Clerk-url]
 * [![MongoDB][MongoDB]][MongoDB-url]
 * [![HuggingFace][HuggingFace]][HuggingFace-url]
-* [![OpenAI][OpenAI]][OpenAI]
+* [![OpenAI][OpenAI]][OpenAI-url]
+* [![LangChain][LangChain]][LangChain-url]
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -189,3 +190,5 @@ Distributed under the Apache 2.0 License. See `LICENSE.txt` for more information
 [HuggingFace-url]: https://huggingface.co/
 [OpenAI]: https://img.shields.io/badge/openai%20api-412991?logo=openai&style=for-the-badge&logoColor=white
 [OpenAI-url]: https://openai.com/
+[LangChain]: https://img.shields.io/badge/langchain-1C3C3C?logo=langchain&style=for-the-badge&logoColor=white
+[LangChain-url]: https://www.langchain.com/
