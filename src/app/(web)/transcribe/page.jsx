@@ -1,10 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-//import Hero1 from '@/components/Hero1'
-//IMPORT THE HERO1 FUNCTION TO MAKE THE TRANSCRIBE PAGE LOOK BETTER
+import axios from "axios";
 import React, { useState, useRef } from "react";
-// import axios from "axios";
 
 import { AlertCircle } from "lucide-react"
 
@@ -15,17 +13,18 @@ import {
 } from "@/components/ui/alert"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const AudioTranscriber: React.FC = () => {
-	const [file, setFile] = useState<File | null>(null);
-	const [transcription, setTranscription] = useState<string | null>(null);
+const AudioTranscriber = () => {
+	const [file, setFile] = useState(null);
+	const [transcription, setTranscription] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [recording, setRecording] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-	const audioChunksRef = useRef<Blob[]>([]);
+	const [error, setError] = useState(null);
+	const mediaRecorderRef = useRef(null);
+	const audioChunksRef = useRef([]);
+	const [audioBlob, setAudioBlob] = useState(null);
 
 	// Handle file selection
-	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = (event) => {
 		if (event.target.files && event.target.files.length > 0) {
 			setFile(event.target.files[0]);
 			console.log("File selected:", event.target.files[0].name);
@@ -33,42 +32,31 @@ const AudioTranscriber: React.FC = () => {
 	};
 
 	// Handle file transcription
-	const handleTranscription = async (audioFile: File) => {
-		if (!audioFile) {
-			alert("No audio file to transcribe!");
-			return;
-		}
-
-		console.log("Starting transcription for:", audioFile.name);
+	const handleTranscription = async () => {
+		console.log(audioBlob, process.env.REACT_APP_GOOGLE_CLOUD_API_KEY)
 
 		const formData = new FormData();
-		formData.append("file", audioFile);
-		setLoading(true);
-		setError(null); // Clear previous errors
+		formData.append('audio', new Blob(audioChunksRef.current, { type: "audio/mp3" }));
+
 		try {
-			let response = await fetch("/api/transcribe", {
-				method: "POST",
-				body: formData,
-				headers: {
-					"Content-Type": "multipart/form-data",
+			const response = await axios.post(
+				'https://speech.googleapis.com/v1/speech:recognize', // Replace with your actual endpoint
+				formData,
+				{
+					headers: {
+						'Access-Control-Allow-Origin': '*/*',
+						'Authorization': `Bearer AIzaSyCgQ_pa8AbNBUViQkqf2sNJQ8zl-fIPQfs`, // Replace with your API key
+						'Content-Type': 'multipart/form-data',
+					},
 				}
-			})
+			);
 
-			console.log("! response:", response);
-			response = await response.json();
-			console.log("@ response:", response);
+			console.log(response.data.results[0].alternatives[0].transcript);
 
-			// if (response.data && response.data.transcription) {
-			//   setTranscription(response.data.transcription);
-			// } else {
-			//   setError("Unexpected response format. Check backend API.");
-			//   console.error("Invalid response format:", response.data);
-			// }
+			setTranscription(response.data.results[0].alternatives[0].transcript);
 		} catch (error) {
-			console.error("Error transcribing audio:", error);
-			setError("Failed to transcribe audio. Please try again.");
-		} finally {
-			setLoading(false);
+			console.error('Error transcribing audio:', error);
+			setTranscription('Transcription failed.');
 		}
 	};
 
@@ -89,14 +77,11 @@ const AudioTranscriber: React.FC = () => {
 			};
 
 			mediaRecorderRef.current.onstop = async () => {
-				const audioBlob = new Blob(audioChunksRef.current, { type: "audio/mp3" });
-				const audioFile = new File([audioBlob], "recording.mp3", { type: "audio/mp3" });
-
 				console.log("Recording stopped. Blob created:", audioBlob);
 
-				setFile(audioFile); // Save the recorded file
+				setAudioBlob(new Blob(audioChunksRef.current, { type: "audio/mp3" }));
 				setTranscription("Processing transcription for recorded audio...");
-				await handleTranscription(audioFile); // Automatically transcribe
+				await handleTranscription(); // Automatically transcribe
 			};
 
 			mediaRecorderRef.current.start();
@@ -129,7 +114,7 @@ const AudioTranscriber: React.FC = () => {
 				<h2>Upload or Record Audio</h2>
 
 				<Input type="file" accept="audio/*" onChange={handleFileChange} />
-				<Button className="my-4" onClick={() => file && handleTranscription(file)} disabled={loading || !file}>
+				<Button className="my-4" onClick={() => file && handleTranscription()} disabled={loading || !file}>
 					{loading ? "Transcribing..." : "Transcribe"}
 				</Button>
 			</div>
