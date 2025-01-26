@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { PersonForm } from "./PatientForm";
-import { Card } from "@/components/ui/card";
 
 import { faker } from "@faker-js/faker";
 
