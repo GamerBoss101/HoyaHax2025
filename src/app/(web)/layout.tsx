@@ -1,7 +1,4 @@
-/*
-
 "use client"
-import Head from 'next/head';
 import React from 'react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -25,10 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	</html>
 	)
 }
-*/
 
 
 
+/*
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
@@ -82,4 +79,4 @@ export default function RootLayout({
     </html>
   )
 }
-
+*/

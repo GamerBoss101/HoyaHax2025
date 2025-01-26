@@ -1,4 +1,3 @@
-/*
 "use client";
 //import Hero1 from '@/components/Hero1'
 //IMPORT THE HERO1 FUNCTION TO MAKE THE TRANSCRIBE PAGE LOOK BETTER
@@ -113,18 +112,13 @@ const AudioTranscriber: React.FC = () => {
         </h1>
       <div>
         <h2>Upload or Record Audio</h2>
-        {/* File Upload */     //}
-
-  /*
+       
         <input type="file" accept="audio/*" onChange={handleFileChange} />
         <button onClick={() => file && handleTranscription(file)} disabled={loading || !file}>
           {loading ? "Transcribing..." : "Transcribe"}
         </button>
       </div>
 
-      {/* Recording Controls */    //}
-
-      /*
       <div>
         <h2>Record Audio</h2>
         {!recording ? (
@@ -136,9 +130,6 @@ const AudioTranscriber: React.FC = () => {
         )}
       </div>
 
-      {/* Transcription Result */     //}
-
-      /*
       <div>
         <h2>Transcription:</h2>
         {loading ? (
@@ -150,9 +141,6 @@ const AudioTranscriber: React.FC = () => {
         )}
       </div>
 
-      {/* Error Message */     //}
-
-      /*
       {error && (
         <div style={{ color: "red" }}>
           <strong>Error:</strong> {error}
@@ -163,8 +151,10 @@ const AudioTranscriber: React.FC = () => {
 };
 
 export default AudioTranscriber;
-*/
 
+
+
+/*
 "use client"
 
 import type React from "react"
@@ -366,3 +356,4 @@ const AudioTranscriber: React.FC = () => {
 }
 
 export default AudioTranscriber
+*/
