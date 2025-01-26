@@ -75,8 +75,8 @@ export default function PatientsDOC() {
                 <Card>
                     <CardContent>
                         {userData && userData.role === 'caregiver' && (
-                            <div>
-                                <ul className="mb-4">
+                            <div className="space-y-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                <div className="mb-4">
                                     {finalPatients.map(patient => (
                                         <Collapsible key={patient.id}>
                                             <div className="flex items-center justify-between p-2 bg-gray-100 dark:bg-neutral-800 rounded-t-lg">
@@ -97,7 +97,7 @@ export default function PatientsDOC() {
                                             </CollapsibleContent>
                                         </Collapsible>
                                     ))}
-                                </ul>
+                                </div>
                             </div>
                         )}
                     </CardContent>
