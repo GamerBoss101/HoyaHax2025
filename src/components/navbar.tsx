@@ -4,7 +4,6 @@ import * as React from "react"
 import Link from "next/link"
 
 import {
-	SignInButton,
 	SignedIn,
 	SignedOut,
 	UserButton
@@ -35,14 +34,19 @@ export function Navbar() {
 				</div>
 				<div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
 					<ModeToggle />
-					<div className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 rounded-md">
-						<SignedOut>
-							<SignInButton />
-						</SignedOut>
-						<SignedIn>
+					<SignedOut>
+						<Link
+							href="/login"
+							className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
+						>
+							Login
+						</Link>
+					</SignedOut>
+					<SignedIn>
+						<div className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-4 py-2 rounded-md">
 							<UserButton />
-						</SignedIn>
-					</div>
+						</div>
+					</SignedIn>
 				</div>
 			</div>
 		</header>
