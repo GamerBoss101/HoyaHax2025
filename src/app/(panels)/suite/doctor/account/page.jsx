@@ -7,17 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { ChevronDown } from "lucide-react"
-
-import { PersonForm } from './PatientForm';
-
-import { useRouter } from 'next/navigation';
-
 const AccountPage = () => {
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
-	const [patients, setPatients] = useState([]);
 
 	useEffect(() => {
 		if (user) {
@@ -72,33 +64,6 @@ const AccountPage = () => {
 					<Button onClick={handleRoleChange} className="mb-4">
 						Change role to {userData.role === 'patient' ? 'caregiver' : 'patient'}
 					</Button>
-
-					{userData.role === 'caregiver' && (
-						<div>
-							<h2 className="text-xl font-bold mb-4">Patients</h2>
-							<ul className="mb-4">
-								{patients.map(patient => (
-									<Collapsible key={patient.id}>
-										<div className="flex items-center justify-between p-2 bg-gray-100 dark:bg-neutral-800 rounded-t-lg">
-											<div>
-												<h2 className="text-lg font-semibold">{patient.name}</h2>
-												<p className="text-sm text-gray-400">{patient.role}</p>
-											</div>
-											<CollapsibleTrigger asChild>
-												<Button variant="ghost" size="sm">
-													<ChevronDown className="h-4 w-4" />
-													<span className="sr-only">Toggle</span>
-												</Button>
-											</CollapsibleTrigger>
-										</div>
-										<CollapsibleContent className="p-4 border border-t-0 rounded-b-lg">
-											<PersonForm person={patient} />
-										</CollapsibleContent>
-									</Collapsible>
-								))}
-							</ul>
-						</div>
-					)}
 				</CardContent>
 			</Card>
 		</div>
