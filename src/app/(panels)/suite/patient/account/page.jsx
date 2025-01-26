@@ -23,10 +23,8 @@ const AccountPage = () => {
         if (userData.role !== "doctor") {
             router.push("/suite/patient/dashboard");
         }
-	} else {
-        router.push("/");
-    }
-
+	}
+	
 	return (
 		<div className="container mx-auto p-4">
 			<Card>

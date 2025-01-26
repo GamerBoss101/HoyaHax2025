@@ -31,10 +31,8 @@ export default function Chat() {
         if (userData.role !== "doctor") {
             router.push("/suite/patient/dashboard");
         }
-	} else {
-        router.push("/");
-    }
-
+	}
+    
     return (
         <div className="container mx-auto">
             <div className="grid gap-4">

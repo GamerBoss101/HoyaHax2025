@@ -26,9 +26,7 @@ export default function Dashboard() {
         if (userData.role !== "doctor") {
             router.push("/suite/patient/dashboard");
         }
-	} else {
-        router.push("/");
-    }
+	}
 
     const patients = [
         { id: 1, name: "John Doe", age: 30, lastVisit: "2024-10-01" },

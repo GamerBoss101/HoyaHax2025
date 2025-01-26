@@ -43,10 +43,6 @@ const AccountPage = () => {
 		}
 	};
 
-	if (!userData) {
-		router.push('/');
-	}
-
 	return (
 		<div className="container mx-auto p-4">
 			<Card>

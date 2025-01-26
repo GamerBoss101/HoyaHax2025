@@ -26,9 +26,7 @@ export default function Dashboard() {
         if (userData.role !== "doctor") {
             router.push("/suite/patient/dashboard");
         }
-	} else {
-        router.push("/");
-    } 
+	}
 
     return (
         <div className="container mx-auto">
