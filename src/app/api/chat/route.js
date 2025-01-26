@@ -1,6 +1,6 @@
 export async function POST(req) {
   try {
-    const token = process.env.FRIENDLI_TOKEN;
+    const token = process.env.FRIENDLI_API_KEY;
     const body = await req.json();
     const { query } = body;
 
@@ -30,10 +30,7 @@ export async function POST(req) {
       frequency_penalty: 0,
       stop: [],
       response_format: null,
-      stream: true,
-      stream_options: {
-        include_usage: true,
-      },
+      stream: false,
     };
 
     const response = await fetch(
@@ -54,8 +51,10 @@ export async function POST(req) {
       );
     }
 
-    const data = await response.text();
-    return new Response(JSON.stringify({ answer: data }), { status: 200 });
+    const data = await response.json();
+    const answer = data?.choices?.[0]?.message?.content || "No answer found"; 
+
+    return new Response(JSON.stringify({ answer }), { status: 200 });
   } catch (error) {
     console.error("Backend error:", error);
     return new Response(
