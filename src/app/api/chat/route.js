@@ -1,6 +1,6 @@
 export async function POST(req) {
   try {
-    const token = process.env.FRIENDLI_TOKEN;
+    const token = process.env.FRIENDLI_API_KEY;
     const body = await req.json();
     const { query } = body;
 
