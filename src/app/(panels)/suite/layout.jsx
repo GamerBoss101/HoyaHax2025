@@ -23,15 +23,18 @@ export default function RootLayout({
 
 	if (userData) {
 		console.log(userData);
-		if (userData.role === "caregiver" && router.pathname.startsWith("/suite/patient/")) {
+		// make sure user only has access to one suite depending on their role 
+		// if a user has a role of "caregiver" they should only have access to /suite/doctor/*
+		
+		if (userData.role === "patient" && !router.pathname.startsWith("/suite/patient")) {
+			router.push("/suite/patient/dashboard");
+		} else if (userData.role === "doctor" && !router.pathname.startsWith("/suite/doctor")) {
 			router.push("/suite/doctor/dashboard");
 		}
 
-		if (userData.role === "patient" && router.pathname.startsWith("/suite/doctor/")) {
-			router.push("/suite/patient/dashboard");
-		}
+	} else {
+		router.push("/");
 	}
-
 
     return (
 		<div>
