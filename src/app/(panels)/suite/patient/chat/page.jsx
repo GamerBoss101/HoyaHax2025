@@ -44,6 +44,8 @@ export default function Chat() {
 		setLoading(true);
 
 		try {
+            console.log("Query being sent:", userQuery);
+
 			const response = await axios.post("/api/chat", { query: userQuery });
 
 			const botResponse = response.data?.answer || "No response from the bot.";
