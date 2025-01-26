@@ -2,6 +2,7 @@
 
 import { PatientTable } from "./PatientTable"
 import { AppointmentList } from "./AppList"
+import { AgeChart } from "./AgeChart"
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,11 +26,11 @@ export default function Dashboard() {
         }
     }, [user]);
 
-    if (userData) {
-        if (userData.role != "caregiver") {
-            router.push("/suite/patient/dashboard");
-        }
-    }
+    // if (userData) {
+    //     if (userData.role != "caregiver") {
+    //         router.push("/suite/patient/dashboard");
+    //     }
+    // }
 
     const patients = [
         { id: 1, name: "John Doe", age: 30, lastVisit: "2024-10-01" },
@@ -52,6 +53,7 @@ export default function Dashboard() {
             <div className="h-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <PatientTable data={patients} />
                 <AppointmentList appointments={appointments} />
+                <AgeChart />
             </div>
         </div>
     )
