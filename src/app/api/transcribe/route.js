@@ -19,12 +19,6 @@ const openaiClient = new OpenAI({
   apiKey: OPENAI_API_KEY,
 });
 
-export const apiconfig = {
-  api: {
-    bodyParser: false, // Disable default body parsing
-  },
-};
-
 // Helper to parse multipart form data
 async function parseMultipartForm(req) {
   const form = formidable({
