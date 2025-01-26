@@ -28,8 +28,8 @@ export default function Chat() {
 	}, [user]);
 
 	if (userData) {
-        if (userData.role !== "doctor") {
-            router.push("/suite/patient/dashboard");
+        if (userData.role !== "patient") {
+            router.push("/suite/doctor/dashboard");
         }
 	}
     
