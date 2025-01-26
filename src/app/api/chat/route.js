@@ -51,8 +51,10 @@ export async function POST(req) {
       );
     }
 
-    const data = await response.text();
-    return new Response(JSON.stringify({ answer: data }), { status: 200 });
+    const data = await response.json();
+    const answer = data?.choices?.[0]?.message?.content || "No answer found"; 
+
+    return new Response(JSON.stringify({ answer }), { status: 200 });
   } catch (error) {
     console.error("Backend error:", error);
     return new Response(
