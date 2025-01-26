@@ -36,13 +36,15 @@ const AudioTranscriber: React.FC = () => {
     setLoading(true);
     setError(null); // Clear previous errors
     try {
-      const response = await fetch("/api/transcribe", {
+      let response = await fetch("/api/transcribe", {
         method: "POST",
         body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
         }
       }) 
+
+      response = await response.json();
       console.log("Transcription response:", response);
 
       // if (response.data && response.data.transcription) {
