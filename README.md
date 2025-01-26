@@ -188,4 +188,4 @@ Distributed under the Apache 2.0 License. See `LICENSE.txt` for more information
 [HuggingFace]: https://img.shields.io/badge/huggingface-FFD21E?logo=huggingface&style=for-the-badge&logoColor=white
 [HuggingFace-url]: https://huggingface.co/
 [OpenAI]: https://img.shields.io/badge/openai%20api-412991?logo=openai&style=for-the-badge&logoColor=white
-[OpenAI-url]: [https://huggingface.co/](https://openai.com/)
+[OpenAI-url]: https://openai.com/
