@@ -57,7 +57,7 @@ PatSafe is a web-based application that connects discharged patients with their 
 
 PatSafe was built using **Next.js** and **React.js** for the frontend, while the backend is powered by **MongoDB** and **Clerk** for authentication. The platform utilizes APIs for real-time updates and features such as medication tracking and symptom reporting. We integrated a chatbot powered by **Hugging Face models** for natural language processing, allowing users to interact conversationally and gather helpful medical information.
 
-
+![https://github.com/GamerBoss101/HoyaHax2025/blob/37edf88fa889b7eea02a5df31d7e73980260bfe5/public/patsafesystemdiagram.png](https://github.com/GamerBoss101/HoyaHax2025/blob/37edf88fa889b7eea02a5df31d7e73980260bfe5/public/patsafesystemdiagram.png)
 
 
 ### Built With
