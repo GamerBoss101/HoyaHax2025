@@ -15,7 +15,6 @@ import { PersonForm } from './PatientForm';
 import { useRouter } from 'next/navigation';
 
 const AccountPage = () => {
-	const router = useRouter();
 	const { user } = useUser();
 	const [userData, setUserData] = useState(null);
 	const [patients, setPatients] = useState([]);
@@ -42,6 +41,14 @@ const AccountPage = () => {
 			setSelectedPatient(null);
 		}
 	};
+
+	if (!userData) return <div>Loading...</div>;
+
+	if (userData) {
+        if (userData.role !== "doctor") {
+            router.push("/suite/patient/dashboard");
+        }
+	}
 
 	return (
 		<div className="container mx-auto p-4">
